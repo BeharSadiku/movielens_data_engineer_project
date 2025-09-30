@@ -8,16 +8,16 @@ It includes ingestion, transformation, and organization into **Bronze**, **Silve
 ## Folder Structure
 
 end_to_end_de_project/
-├── .vscode/
-├── dags/
-├── databricks/
-├── databricks_config/
-├── dbt/
-├── plugins/
-├── docker-compose.yaml
-├── Dockerfile
-├── README.md
-└── requirements.txt
+├── .vscode/ # VS Code settings
+├── dags/ # Airflow DAGs
+├── databricks/ # Databricks scripts
+├── databricks_config/ # Configuration for Databricks
+├── dbt/ # dbt project
+├── plugins/ # Airflow plugins
+├── docker-compose.yaml # Docker Compose configuration
+├── Dockerfile # Docker image definition
+├── README.md # Project documentation
+└── requirements.txt # Python dependencies
 
 
 ---
