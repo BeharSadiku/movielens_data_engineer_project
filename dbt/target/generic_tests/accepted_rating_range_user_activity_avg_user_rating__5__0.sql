@@ -1,0 +1,1 @@
+{{ test_accepted_rating_range(column_name="avg_user_rating", max_value=5, min_value=0, model=get_where_subquery(ref('user_activity'))) }}

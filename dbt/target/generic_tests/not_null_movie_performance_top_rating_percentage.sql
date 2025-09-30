@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="top_rating_percentage", model=get_where_subquery(ref('movie_performance'))) }}

@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: workspace
+    schema: movielens_volume
+    tables:
+      - name: bronze_movies
+        description: "Movie metadata"
+      - name: bronze_ratings
+        description: "User ratings for movies"
+      - name: bronze_tags
+        description: "User tags for movies"
+      - name: bronze_links
+        description: "External movie links (IMDB/TMDB)"

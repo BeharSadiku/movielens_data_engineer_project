@@ -1,0 +1,103 @@
+version: 2
+
+# --------------------------
+# Silver Models
+# --------------------------
+models:
+  # --------------------------
+  # Silver Movies Table
+  # --------------------------
+  - name: silver_movies
+    description: "Movies table in Silver layer (cleaned and deduplicated)"
+    columns:
+      - name: movie_id
+        description: "Primary key for movies"
+        tests:
+          - unique
+          - not_null
+      - name: title
+        description: "Movie title"
+        tests:
+          - not_null
+      - name: genres
+        description: "Movie genres (pipe-separated)"
+        tests:
+          - not_null
+
+  # --------------------------
+  # Silver Ratings Table
+  # --------------------------
+  - name: silver_ratings
+    description: "Ratings table in Silver layer (cleaned, rounded, valid ranges)"
+    columns:
+      - name: user_id
+        description: "User identifier"
+        tests:
+          - not_null
+      - name: movie_id
+        description: "Movie identifier, references silver_movies"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_movies')
+              field: movie_id
+      - name: rating
+        description: "Rating given by user (rounded to 2 decimals, 0–5 range)"
+        tests:
+          - not_null
+          - accepted_rating_range:
+              min_value: 0
+              max_value: 5
+      - name: rating_date
+        description: "Timestamp when rating was given (truncated to DATE)"
+        tests:
+          - not_null
+
+  # --------------------------
+  # Silver Tags Table
+  # --------------------------
+  - name: silver_tags
+    description: "Tags table in Silver layer (cleaned, duplicates removed)"
+    columns:
+      - name: user_id
+        description: "User identifier"
+        tests:
+          - not_null
+      - name: movie_id
+        description: "Movie identifier, references silver_movies"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_movies')
+              field: movie_id
+      - name: tag
+        description: "Tag text"
+        tests:
+          - not_null
+      - name: tagged_date
+        description: "Timestamp when tag was added (truncated to DATE)"
+        tests:
+          - not_null
+
+  # --------------------------
+  # Silver Links Table
+  # --------------------------
+  - name: silver_links
+    description: "Links table in Silver layer (deduplicated, references movies)"
+    columns:
+      - name: movie_id
+        description: "Movie identifier, references silver_movies"
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('silver_movies')
+              field: movie_id
+      - name: imdb_id
+        description: "IMDB identifier"
+        tests:
+          - not_null
+      - name: tmdb_id
+        description: "TMDB identifier"
+        tests:
+          - not_null

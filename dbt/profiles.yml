@@ -1,0 +1,11 @@
+my_dbt_project:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: workspace
+      schema: movielens_volume
+      host: ${DATABRICKS_HOST}       # Set in your environment or .env file
+      http_path: ${DATABRICKS_HTTP_PATH}  # Set in your environment or .env file
+      token: ${DATABRICKS_TOKEN}     # Set in your environment or .env file
+      threads: 1

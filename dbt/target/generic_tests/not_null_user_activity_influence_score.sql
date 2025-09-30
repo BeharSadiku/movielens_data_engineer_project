@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="influence_score", model=get_where_subquery(ref('user_activity'))) }}

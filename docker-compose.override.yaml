@@ -1,0 +1,30 @@
+services:
+  airflow-webserver:
+    environment:
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+      # Add other environment variables via .env file or Docker secrets
+      # Example:
+      # AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${AIRFLOW__DATABASE__SQL_ALCHEMY_CONN}
+    volumes:
+      - ./dags:/opt/airflow/dags:cached
+      - ./logs:/opt/airflow/logs:cached
+      - ./plugins:/opt/airflow/plugins:cached
+      - ./dbt:/opt/airflow/dbt:cached
+    command: webserver
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres  # Make sure your Postgres service is defined elsewhere
+
+  airflow-scheduler:
+    environment:
+      # Add environment variables if needed, e.g. for Airflow DB connection
+      # AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${AIRFLOW__DATABASE__SQL_ALCHEMY_CONN}
+    volumes:
+      - ./dags:/opt/airflow/dags:cached
+      - ./logs:/opt/airflow/logs:cached
+      - ./plugins:/opt/airflow/plugins:cached
+      - ./dbt:/opt/airflow/dbt:cached
+    command: scheduler
+    depends_on:
+      - postgres

@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="first_activity_date", model=get_where_subquery(ref('user_activity'))) }}

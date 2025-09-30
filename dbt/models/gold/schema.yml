@@ -1,0 +1,152 @@
+version: 2
+
+models:
+  # --------------------------
+  # Movie Performance
+  # --------------------------
+  - name: movie_performance
+    description: "Aggregated movie performance metrics (weighted ratings, counts, rankings)"
+    columns:
+      - name: movie_id
+        description: "Primary identifier for the movie"
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('silver_movies')
+              field: movie_id
+      - name: weighted_avg_rating
+        description: "Weighted average rating for the movie (0–5)"
+        tests:
+          - not_null
+          - accepted_rating_range:
+              min_value: 0
+              max_value: 5
+      - name: rating_count
+        description: "Number of ratings used in aggregation"
+        tests:
+          - not_null
+      - name: genre_rank
+        description: "Rank within genre ordered by weighted_avg_rating"
+        tests:
+          - not_null
+      - name: polarization_score
+        description: "Standard deviation of ratings (rounded 2 decimals)"
+        tests:
+          - not_null
+      - name: top_rating_percentage
+        description: "Percentage of ratings >= 4.5 (rounded 2 decimals)"
+        tests:
+          - not_null
+
+  # --------------------------
+  # User Activity
+  # --------------------------
+  - name: user_activity
+    description: "User-level activity summary and top genre"
+    columns:
+      - name: user_id
+        description: "Unique identifier for each user"
+        tests:
+          - unique
+          - not_null
+      - name: user_rating_count
+        description: "Total number of ratings submitted by the user"
+        tests:
+          - not_null
+      - name: avg_user_rating
+        description: "Average rating given by the user (0–5)"
+        tests:
+          - not_null
+          - accepted_rating_range:
+              min_value: 0
+              max_value: 5
+      - name: first_activity_date
+        description: "Date of first rating by user (YYYY-MM-DD)"
+        tests:
+          - not_null
+      - name: last_activity_date
+        description: "Date of most recent rating by user (YYYY-MM-DD)"
+        tests:
+          - not_null
+      - name: influence_score
+        description: "User influence score based on total rating count"
+        tests:
+          - not_null
+      - name: top_genre
+        description: "User's most rated genre"
+        tests:
+          - not_null
+
+  # --------------------------
+  # Genre Popularity
+  # --------------------------
+  - name: genre_popularity
+    description: "Genre-level popularity and quality metrics"
+    columns:
+      - name: genres
+        description: "Pipe-separated movie genres"
+        tests:
+          - not_null
+          - unique
+      - name: rating_count
+        description: "Total number of ratings for this genre"
+        tests:
+          - not_null
+      - name: avg_rating
+        description: "Average rating for this genre (0–5)"
+        tests:
+          - not_null
+          - accepted_rating_range:
+              min_value: 0
+              max_value: 5
+      - name: popularity_rank
+        description: "Rank of genre by number of ratings"
+        tests:
+          - not_null
+      - name: quality_rank
+        description: "Rank of genre by average rating"
+        tests:
+          - not_null
+      - name: first_rating_date
+        description: "Earliest rating date for this genre"
+        tests:
+          - not_null
+      - name: last_rating_date
+        description: "Most recent rating date for this genre"
+        tests:
+          - not_null
+
+  # --------------------------
+  # Movie Enriched
+  # --------------------------
+  - name: movie_enriched
+    description: "Enriched movie-level table combining ratings and movie info"
+    columns:
+      - name: movie_id
+        description: "Unique movie identifier"
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('silver_movies')
+              field: movie_id
+      - name: title
+        description: "Movie title"
+        tests:
+          - not_null
+      - name: genres
+        description: "Pipe-separated genres"
+        tests:
+          - not_null
+      - name: total_ratings
+        description: "Total number of ratings for the movie"
+        tests:
+          - not_null
+      - name: avg_rating
+        description: "Average rating for the movie (0–5)"
+        tests:
+          - not_null
+          - accepted_rating_range:
+              min_value: 0
+              max_value: 5

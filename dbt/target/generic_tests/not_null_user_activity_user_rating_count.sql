@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="user_rating_count", model=get_where_subquery(ref('user_activity'))) }}

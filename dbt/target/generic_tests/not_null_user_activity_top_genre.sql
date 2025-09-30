@@ -1,0 +1,1 @@
+{{ test_not_null(column_name="top_genre", model=get_where_subquery(ref('user_activity'))) }}
