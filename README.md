@@ -1,6 +1,6 @@
 # End-to-End Data Engineering Project - MovieLens 32M
 
-This repository demonstrates an end-to-end data engineering workflow using **PySpark**, **Databricks**, and **DBT**.  
+This repository demonstrates an end-to-end data engineering workflow using **PySpark**, **Databricks**, **Airflow**, and **DBT**.  
 It includes ingestion, transformation, and organization into **Bronze**, **Silver**, and **Gold** layers.
 
 ---
